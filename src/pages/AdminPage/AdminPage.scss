@@ -1,0 +1,238 @@
+// src/pages/AdminPage/AdminPage.scss
+body {
+    background-color: rgb(227, 227, 227);
+}
+.admin-page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+  }
+  
+  .admin-header {
+    background-color: black;
+    color: white;
+    padding: 10px;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    span {
+        display: flex;
+        align-items: center;
+        img {
+            width:80px;
+            height: auto;
+            padding-left: 20px;
+        }
+    }
+    .admin-controls {
+      display: flex;
+      gap: 25px;
+      padding-right: 30px;
+      a {
+        color: white;
+        text-decoration: none;
+        &:hover{
+            font-weight: 700;
+            border-bottom: .5px solid white;
+            transition: .2s ease-out;
+        }
+      }
+    }
+  }
+  
+  .statistics-container {
+    display: flex;
+    flex: 1;
+    gap: 5px;
+    margin: 5px;
+  
+    .charts {
+      flex: 1;
+      border-radius: 9.64px;
+    box-shadow: 5px 10px 50px 0px rgba(0, 0, 0, 0.1);
+    background: rgb(255, 255, 255);
+      padding: 20px;
+      margin: 10px;
+  
+      h2 {
+        text-align: center;
+      }
+  
+      .chart {
+        margin-bottom: 20px;
+        box-shadow: 5px 10px 50px 0px rgba(0, 0, 0, 0.1);
+        background: rgb(255, 255, 255);
+        border-radius: 9.64px;
+        padding: 20px;
+      }
+    }
+  
+    .info-panels {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      border-radius: 9.64px;
+      box-shadow: 5px 10px 50px 0px rgba(0, 0, 0, 0.1);
+      background: rgb(255, 255, 255);
+      padding: 20px;
+      margin: 10px;
+      h2 {
+        text-align: center;
+      }
+      .card {
+        box-shadow: 5px 10px 50px 0px rgba(0, 0, 0, 0.1);
+        background: rgb(255, 255, 255);
+        border-radius: 9.64px;
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+  
+      .additional-chart {
+        margin-top: auto; // Чтобы оставалось место для других элементов
+      }
+    }
+  }
+  
+  .stock-info, .request-info {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid gray;
+    border-radius: 5px;
+  }
+  
+  .header_h2 {
+    font-size: 40px;
+    color: rgba(0, 0, 0, 0.3);
+    margin: 0px;
+    padding: 0px;
+    padding-bottom: 0px;
+    text-transform: uppercase;
+  }
+
+  hr {
+    font-size: 50px;
+
+  }
+
+  .info_data {
+    margin-top: 10px;
+    // border: 1px solid black;
+    // border-radius: 10px;
+    padding: 5px 10px;
+    font-size: 14px;
+    line-height: 10px;
+    display: flex;
+    flex-flow:row nowrap;
+    justify-content: space-between;
+    .info_card {
+        display: flex;
+        flex-flow:column nowrap;
+        align-items:center ;
+        // border: 1px solid black;
+        flex-grow: 1;
+        margin: 10px;
+        padding: 15px;
+        border-radius: 5px;
+        background-color: black;
+            color: white;
+        i {
+            font-size: 24px;
+        }
+        p {
+            font-size: 16px;
+            font-weight: 700;
+        }
+        &:hover{
+            background-color: rgb(255, 255, 255);
+            color: rgb(0, 0, 0);
+            border: 1px solid black;
+            transition: .3s ease-out;
+        }
+    }
+  }
+
+  /* Стили для форм, кнопок и выпадающих списков */
+input,
+select,
+button {
+    font-family: 'Montserrat', sans-serif; // Шрифт для всех форм
+    padding: 10px; // Добавляем отступы
+    border: none; // Убираем границы
+    border-radius: 5px; // Закругляем углы
+    background-color: #f0f0f0; // Светлый фон для полей ввода
+    transition: background-color 0.3s; // Плавный переход для цвета фона
+}
+
+input:focus,
+select:focus {
+    outline: none; // Убираем обводку
+    background-color: #e1e1e1; // Цвет фона при фокусе
+}
+
+button {
+    cursor: pointer; // Изменяем курсор на указатель
+    background-color: #ff0000; // Цвет фона кнопки
+    color: white; // Цвет текста
+    border: none; // Убираем границу
+    transition: background-color 0.3s; // Плавный переход для цвета фона кнопки
+}
+
+button:hover {
+    background-color: #a80505; // Цвет фона кнопки при наведении
+}
+
+/* Стили для выпадающего списка */
+select {
+    appearance: none; // Убираем стандартный стиль
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><polygon points="7,10 12,15 17,10" fill="black"/></svg>'); // Стиль стрелки вниз
+    background-repeat: no-repeat; // Не повторяем изображение
+    background-position: right 10px center; // Позиция стрелки
+    background-size: 12px; // Размер стрелки
+}
+
+/* Стили для элемента, чтобы убрать черную границу */
+.stock-request-info {
+    margin-bottom: 20px;
+    padding: 10px;
+    // Тень для секции
+}
+
+.goods-transfer-info {
+    margin-top: 20px;
+  
+    h2 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+  
+    .goods-transfer-table {
+      width: 100%;
+      border-collapse: collapse;
+  
+      th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+  
+      th {
+        background-color: #f2f2f2;
+      }
+  
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+  
+      tr:hover {
+        background-color: #ddd;
+      }
+  
+      td {
+        color: #333;
+      }
+    }
+  }
+  
