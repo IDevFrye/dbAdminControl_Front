@@ -30,39 +30,41 @@ const StockRequestInfo = () => {
     };
 
     const handleCheckInfo = async () => {
-        if (selectedGood) {
-            try {
-                const token = document.cookie.split('; ').find(row => row.startsWith('token=')).split('=')[1];
+    if (selectedGood) {
+        try {
+            const token = document.cookie.split('; ').find(row => row.startsWith('token=')).split('=')[1];
 
-                // Получаем данные о наличии товара на складах
-                const stockResponse = await axios.get(`http://localhost:8000/warehouse_counts?good_id=${selectedGood}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
+            // Получаем данные о наличии товара на складах
+            const stockResponse = await axios.get(`http://localhost:8000/warehouse_counts?good_id=${selectedGood}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
 
-                // Получаем данные о количестве в заявках
-                const requestResponse = await axios.get(`http://localhost:8000/sales_counts?good_id=${selectedGood}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
+            // Получаем данные о количестве в заявках
+            const requestResponse = await axios.get(`http://localhost:8000/sales_counts?good_id=${selectedGood}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
 
-                // Обновляем состояние
-                setStocks({
-                    warehouse1: stockResponse.data.warehouse1_count || 0,
-                    warehouse2: stockResponse.data.warehouse2_count || 0,
-                    priority: requestResponse.data.priority || 0
-                });
+            // Обновляем состояние
+            setStocks({
+                warehouse1: stockResponse.data.warehouse1_count || 0,
+                warehouse2: stockResponse.data.warehouse2_count || 0,
+                priority: requestResponse.data.priority || 0
+            });
 
-                setRequestData({
-                    quantity: requestResponse.data.quantity || 0
-                });
-            } catch (error) {
-                console.error('Error fetching stock or request data:', error);
-            }
+            setRequestData({
+                quantity: requestResponse.data.quantity || 0
+            });
+        } catch (error) {
+            console.error('Error fetching stock or request data:', error.response ? error.response.data : error.message);
         }
-    };
+    }
+};
+
+
 
     return (
         <div className="stock-request-info" >

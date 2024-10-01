@@ -9,39 +9,74 @@ body {
     width: 100%;
   }
   
-  .admin-header {
-    background-color: black;
-    color: white;
-    padding: 10px;
-    
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    
-    span {
+    .admin-header {
+      background-color: black;
+      color: white;
+      padding: 10px;
+  
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  
+      span {
         display: flex;
         align-items: center;
+  
         img {
-            width:80px;
-            height: auto;
-            padding-left: 20px;
+          width: 80px;
+          height: auto;
+          padding-left: 20px;
         }
-    }
-    .admin-controls {
-      display: flex;
-      gap: 25px;
-      padding-right: 30px;
-      a {
-        color: white;
-        text-decoration: none;
-        &:hover{
+      }
+  
+      .admin-controls {
+        display: flex;
+        gap: 25px;
+        padding-right: 30px;
+        align-items: center;
+        button {
+            margin-left: 20px;
+            background-color: rgb(0, 0, 0);
+            color: rgb(0, 0, 0);
+            border: none;
+            cursor: pointer;
+            padding: 10px 10px;
+            transition: background-color 0.3s ease;
+          i{
+            font-size: 24px;
+            color: #000000;
+            &:hover{
+              color:#ffffff;
+              transition: 0.2s ease-out;
+            }
+          }
+            &:hover {
+              background-color: rgb(255, 255, 255);
+              /* Темнее при наведении */
+            }
+          }
+        a {
+          color: white;
+          text-decoration: none;
+  
+          &:hover {
             font-weight: 700;
-            border-bottom: .5px solid white;
-            transition: .2s ease-out;
+            border-bottom: 0.5px solid white;
+            transition: 0.2s ease-out;
+          }
+  
+          &.active {
+            color: rgb(241, 68, 68);
+            font-weight: 700;
+            /* Подсветка активной ссылки */
+            pointer-events: none;
+            /* Отключить наведение для активной ссылки */
+            border-bottom: none;
+            /* Убираем нижнюю границу */
+          }
         }
       }
     }
-  }
   
   .statistics-container {
     display: flex;
@@ -215,7 +250,7 @@ select {
       th, td {
         border: 1px solid #ddd;
         padding: 8px;
-        text-align: left;
+        text-align: center;
       }
   
       th {
@@ -236,3 +271,40 @@ select {
     }
   }
   
+    .goods-transfer-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+  
+    .goods-transfer-table th,
+    .goods-transfer-table td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+  
+    .goods-transfer-table th {
+      cursor: pointer;
+      background-color: #f0f0f0;
+    }
+
+        .disabled-button {
+          background-color: #ccc;
+          /* Светло-серый фон для неактивной кнопки */
+          color: #666;
+          /* Тусклый текст для неактивной кнопки */
+          cursor: not-allowed;
+          /* Курсор не разрешен */
+          border: 1px solid #aaa;
+          /* Серая рамка для неактивной кнопки */
+        }
+    
+        /* Убираем эффект наведения на неактивную кнопку */
+        .disabled-button:hover {
+          background-color: #ccc;
+          /* Оставляем тот же фон при наведении */
+          color: #666;
+          /* Оставляем тот же текст при наведении */
+          border: 1px solid #aaa;
+          /* Оставляем тот же бордер при наведении */
+        }

@@ -1,30 +1,31 @@
-// src/pages/GoodsPage/GoodsPage.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import logo from "../AdminPage/logo.png";
-import { Link } from "react-router-dom";
 import './SalesPage.scss';
+import AdminHeader from '../../components/AdminHeader';
+import Notification from '../../components/Notification';
 
 const SalesPage = () => {
-    const [goods, setGoods] = useState([]);
+    const [sales, setSales] = useState([]);
     const [editingIndex, setEditingIndex] = useState(-1);
-    const [newGood, setNewGood] = useState({ name: '', priority: '' });
+    const [newSale, setNewSale] = useState({ good_id: '', good_count: '', create_date: '' });
+    const [notification, setNotification] = useState('');
+    const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ASC' });
 
     useEffect(() => {
-        fetchGoods();
+        fetchSales();
     }, []);
 
-    const fetchGoods = async () => {
+    const fetchSales = async () => {
         try {
-            const token = localStorage.getItem('token'); // Извлекаем токен из localStorage
-            const response = await axios.get('http://localhost:8000/sales1', {
+            const token = localStorage.getItem('token');
+            const response = await axios.get('http://localhost:8000/sales', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            setGoods(response.data);
+            setSales(response.data);
         } catch (error) {
-            console.error('Error fetching goods:', error);
+            console.error('Error fetching sales:', error);
         }
     };
 
@@ -33,151 +34,203 @@ const SalesPage = () => {
     };
 
     const handleDelete = async (id) => {
-        if (window.confirm("Вы уверены, что хотите удалить этот товар?")) {
+        if (window.confirm("Вы уверены, что хотите удалить эту заявку?")) {
             try {
-                const token = localStorage.getItem('token'); // Извлекаем токен из localStorage
+                const token = localStorage.getItem('token');
                 await axios.delete(`http://localhost:8000/sales/${id}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-                fetchGoods();
+                fetchSales();
             } catch (error) {
-                if (error.response) {
-                    // Если есть ответ с ошибкой от сервера, отобразим его
-                    alert(error.response.data); // Отображаем сообщение об ошибке
-                } else {
-                    console.error('Error deleting good:', error);
-                    alert('Произошла ошибка при удалении товара.');
-                }
+                setNotification('Произошла ошибка при удалении заявки.');
             }
         }
     };
-    
 
     const handleSave = async (id, index) => {
-        const goodToUpdate = { ...goods[index], priority: parseFloat(goods[index].priority) };
+        const saleToUpdate = { ...sales[index], good_count: parseInt(sales[index].good_count) };
         try {
-            const token = localStorage.getItem('token'); // Извлекаем токен из localStorage
-            await axios.put(`http://localhost:8000/sales/${id}`, goodToUpdate, {
+            const token = localStorage.getItem('token');
+            await axios.put(`http://localhost:8000/sales/${id}`, saleToUpdate, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
             setEditingIndex(-1);
-            fetchGoods();
+            fetchSales();
         } catch (error) {
-            console.error('Error updating good:', error);
+            console.error('Error updating sale:', error);
+            if (error.response) {
+                setNotification(error.response.data);
+                setTimeout(() => {
+                    setNotification('');
+                }, 3000);
+            }
         }
     };
 
     const handleAdd = async () => {
         try {
-            const goodToAdd = {
-                name: newGood.name,
-                priority: parseFloat(newGood.priority),
+            const saleToAdd = {
+                good_id: parseInt(newSale.good_id),
+                good_count: parseInt(newSale.good_count),
+                create_date: newSale.create_date,
             };
-            const token = localStorage.getItem('token'); // Извлекаем токен из localStorage
-            await axios.post('http://localhost:8000/sales', goodToAdd, {
+            const token = localStorage.getItem('token');
+            await axios.post('http://localhost:8000/sales', saleToAdd, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            setNewGood({ name: '', priority: '' });
-            fetchGoods();
+            setNewSale({ good_id: '', good_count: '', create_date: '' });
+            fetchSales();
         } catch (error) {
-            console.error('Error adding good:', error);
+            console.error('Error adding sale:', error);
+            if (error.response) {
+                setNotification(error.response.data);
+                setTimeout(() => {
+                    setNotification('');
+                }, 3000);
+            }
         }
     };
 
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}.${month}.${year}`;
+    };
+
+    const sortSales = (key) => {
+        let direction = 'ASC';
+
+        if (sortConfig.key === key && sortConfig.direction === 'ASC') {
+            direction = 'DESC';
+        }
+
+        const sortedSales = [...sales].sort((a, b) => {
+            if (typeof a[key] === 'string') {
+                return direction === 'ASC'
+                    ? a[key].localeCompare(b[key])
+                    : b[key].localeCompare(a[key]);
+            } else {
+                return direction === 'ASC' ? a[key] - b[key] : b[key] - a[key];
+            }
+        });
+
+        setSales(sortedSales);
+        setSortConfig({ key, direction });
+    };
+
     return (
-        <div className="goods-page">
-            <header className="admin-header">
-                <span>
-                <img src={logo} alt="ddd" draggable="false"/>
-                <h1>Admin Dashboard</h1>
-                </span>
-                <div className="admin-controls">
-                <Link to="/admin">Главная</Link>
-                <Link to="/goods">Товары</Link>
-                <Link to="/sales">Заявки</Link>
-                <Link to="/warehouse1">Склад 1</Link>
-                <Link to="/warehouse2">Склад 2</Link>
-                </div>
-            </header>
-            <h2>Товары</h2>
+        <div className="sales-page">
+            <AdminHeader />
+            <h2 className='header_h2'>Заявки</h2>
+            {notification && <Notification message={notification} onClose={() => setNotification('')} />}
             <table>
                 <thead>
                     <tr>
-                        <th>Название</th>
-                        <th>Приоритет</th>
+                        <th className="sortable" onClick={() => sortSales('id')}>ID {sortConfig.key === 'id' && (sortConfig.direction === 'ASC' ? '↑' : '↓')}</th>
+                        <th className="sortable" onClick={() => sortSales('good_id')}>ID товара {sortConfig.key === 'good_id' && (sortConfig.direction === 'ASC' ? '↑' : '↓')}</th>
+                        <th className="sortable" onClick={() => sortSales('good_name')}>Название товара {sortConfig.key === 'good_name' && (sortConfig.direction === 'ASC' ? '↑' : '↓')}</th>
+                        <th className="sortable" onClick={() => sortSales('good_count')}>Количество {sortConfig.key === 'good_count' && (sortConfig.direction === 'ASC' ? '↑' : '↓')}</th>
+                        <th className="sortable" onClick={() => sortSales('create_date')}>Дата создания {sortConfig.key === 'create_date' && (sortConfig.direction === 'ASC' ? '↑' : '↓')}</th>
                         <th>Действия</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {goods.map((good, index) => (
-                        <tr key={good.id}>
-                            <td>
-                                {editingIndex === index ? (
-                                    <input
-                                        type="text"
-                                        value={good.name}
-                                        onChange={(e) => {
-                                            const updatedGoods = [...goods];
-                                            updatedGoods[index].name = e.target.value;
-                                            setGoods(updatedGoods);
-                                        }}
-                                    />
-                                ) : (
-                                    good.name
-                                )}
-                            </td>
+                    {sales.map((sale, index) => (
+                        <tr key={sale.id}>
+                            <td>{sale.id}</td>
                             <td>
                                 {editingIndex === index ? (
                                     <input
                                         type="number"
-                                        value={good.priority}
+                                        value={sale.good_id}
                                         onChange={(e) => {
-                                            const updatedGoods = [...goods];
-                                            updatedGoods[index].priority = e.target.value; // Сохраняем как строку
-                                            setGoods(updatedGoods);
+                                            const updatedSales = [...sales];
+                                            updatedSales[index].good_id = e.target.value;
+                                            setSales(updatedSales);
                                         }}
                                     />
                                 ) : (
-                                    good.priority
+                                    sale.good_id
+                                )}
+                            </td>
+                            <td>{sale.good_name}</td>
+                            <td>
+                                {editingIndex === index ? (
+                                    <input
+                                        type="number"
+                                        value={sale.good_count}
+                                        onChange={(e) => {
+                                            const updatedSales = [...sales];
+                                            updatedSales[index].good_count = e.target.value;
+                                            setSales(updatedSales);
+                                        }}
+                                    />
+                                ) : (
+                                    sale.good_count
                                 )}
                             </td>
                             <td>
                                 {editingIndex === index ? (
-                                    <button onClick={() => handleSave(good.id, index)}>Сохранить</button>
+                                    <input
+                                        type="date"
+                                        value={sale.create_date}
+                                        onChange={(e) => {
+                                            const updatedSales = [...sales];
+                                            updatedSales[index].create_date = e.target.value;
+                                            setSales(updatedSales);
+                                        }}
+                                    />
                                 ) : (
-                                    <>
-                                        <button onClick={() => handleEdit(index)}>Изменить</button>
-                                        <button onClick={() => handleDelete(good.id)}>Удалить</button>
-                                    </>
+                                    formatDate(sale.create_date)
                                 )}
+                            </td>
+                            <td>
+                                {editingIndex === index ? (
+                                    <button onClick={() => handleSave(sale.id, index)}><i className="fa-solid fa-circle-check"></i></button>
+                                ) : (
+                                    <button onClick={() => handleEdit(index)}><i className="fa-solid fa-pencil"></i></button>
+                                )}
+                                <button onClick={() => handleDelete(sale.id)}><i className="fa-solid fa-trash"></i></button>
                             </td>
                         </tr>
                     ))}
                     <tr>
-                        <td>
-                            <input
-                                type="text"
-                                value={newGood.name}
-                                onChange={(e) => setNewGood({ ...newGood, name: e.target.value })}
-                                placeholder="Название товара"
-                            />
-                        </td>
+                        <td></td>
                         <td>
                             <input
                                 type="number"
-                                value={newGood.priority}
-                                onChange={(e) => setNewGood({ ...newGood, priority: e.target.value })}
-                                placeholder="Приоритет"
+                                value={newSale.good_id}
+                                onChange={(e) => setNewSale({ ...newSale, good_id: e.target.value })}
+                                placeholder="ID товара"
+                            />
+                        </td>
+                        <td></td> {/* Новое поле для названия товара можно будет добавить в будущем */}
+                        <td>
+                            <input
+                                type="number"
+                                value={newSale.good_count}
+                                onChange={(e) => setNewSale({ ...newSale, good_count: e.target.value })}
+                                placeholder="Количество"
                             />
                         </td>
                         <td>
-                            <button onClick={handleAdd}>Добавить</button>
+                            <input
+                                type="date"
+                                value={newSale.create_date}
+                                onChange={(e) => setNewSale({ ...newSale, create_date: e.target.value })}
+                                placeholder="Дата создания"
+                            />
+                        </td>
+                        <td>
+                            <button onClick={handleAdd}><i className="fa-solid fa-circle-plus"></i></button>
                         </td>
                     </tr>
                 </tbody>

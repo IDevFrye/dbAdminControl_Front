@@ -15,7 +15,7 @@ body {
     }
 
     table {
-        width: 70%;
+        width: 40%;
         border-collapse: collapse;
         align-self: center;
         margin-bottom: 50px;
@@ -26,16 +26,35 @@ body {
             text-align: left;
 
             &:first-child {
-                width: 50%; // ширина для названия товара
+                width: 8%; // ширина для названия товара
+                
             }
             &:nth-child(2) {
-                width: 30%; // ширина для приоритета
+                width: 60%; // ширина для приоритета
+            }
+            &:nth-child(3) {
+                width: 20%; // ширина для приоритет
+                text-align: center
             }
             &:last-child {
-                width: 20%; // ширина для действий
+                width: 15%; // ширина для действий
+                text-align: center
             }
         }
-
+                th.sortable {
+                    cursor: pointer; // Указатель курсора для заголовков, которые можно щелкнуть
+                    background-color: #f2f2f2; // Цвет фона для заголовков
+                    padding: 10px; // Отступы для заголовков
+                    transition: background-color 0.3s; // Плавный переход цвета фона
+        
+                    &:hover {
+                        background-color: #e0e0e0; // Цвет фона при наведении
+                    }
+                }
+        
+                th {
+                    position: relative; // Для позиционирования стрелок
+                }
         th {
             background-color: #f2f2f2;
             font-weight: bold;
@@ -56,35 +75,41 @@ body {
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
+            
         }
-
+                input[type="number"] {
+                    text-align: center
+                }
         button {
             padding: 5px 10px;
             border: none;
-            border-radius: 50%;
+            border-radius: 20px 20px;
             cursor: pointer;
             transition: background-color 0.3s;
 
             &:hover {
-                background-color: #007BFF; // цвет кнопки при наведении
+                background-color: #da1919; // цвет кнопки при наведении
                 color: white;
             }
 
             &:nth-child(1) {
-                background-color: #ffffff; // цвет кнопки "Изменить"
+                background-color: #000000; // цвет кнопки "Изменить"
                 margin-right: 5px;
             }
 
-            &:nth-child(2) {
-                background-color: #ff374b; // цвет кнопки "Удалить"
-            }
-
-            &:last-child {
-                background-color: #28a745; // цвет кнопки "Добавить"
-            }
+            
         }
     }
 }
+.header_h2 {
+    font-size: 40px;
+    color: rgba(0, 0, 0, 0.3);
+    margin: 20px;
+    padding: 0px;
+    padding-bottom: 0px;
+    text-transform: uppercase;
+}
+
 .admin-header {
     background-color: black;
     color: white;
@@ -117,4 +142,20 @@ body {
         }
       }
     }
+  }
+  .notification {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(255, 0, 0, 0.8);
+      color: white;
+      padding: 15px;
+      border-radius: 5px;
+      z-index: 1000;
+      transition: opacity 0.3s ease;
+
+      &.fade-out {
+          opacity: 0;
+      }
   }

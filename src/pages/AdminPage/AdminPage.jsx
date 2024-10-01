@@ -8,22 +8,12 @@ import StockRequestInfo from '../../components/StockRequestInfo';
 import ForecastDemandChart from './ForecastDemandChart';
 import GoodsTransferInfo from '../../components/GoodsTransferInfo'; // Импортируем новый компонент
 import { Link } from "react-router-dom";
+import AdminHeader from '../../components/AdminHeader';
 
 const AdminPage = () => {
   return (
     <div className="admin-page">
-      <header className="admin-header">
-        <span>
-          <img src={logo} alt="ddd" draggable="false"/>
-          <h1>Admin Dashboard</h1>
-        </span>
-        <div className="admin-controls">
-          <Link to="/goods">Товары</Link>
-          <Link to="/sales">Заявки</Link>
-          <Link to="/warehouse1">Склад 1</Link>
-          <Link to="/warehouse2">Склад 2</Link>
-        </div>
-      </header>
+      <AdminHeader />
       <div className="statistics-container">
         <div className="charts">
           <h2 className="header_h2">Статистика</h2>

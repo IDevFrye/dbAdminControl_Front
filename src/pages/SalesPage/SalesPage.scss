@@ -2,7 +2,7 @@ body {
     background-color: #f9f9f9;
 }
 
-.goods-page {
+.sales-page {
     background-color: #f9f9f9;
     border-radius: 8px;
     display: flex;
@@ -15,28 +15,58 @@ body {
     }
 
     table {
-        width: 70%;
+        width: 50%;
         border-collapse: collapse;
         align-self: center;
         margin-bottom: 50px;
 
-        th, td {
+        th,
+        td {
             border: 1px solid #ddd;
             padding: 10px;
             text-align: left;
 
             &:first-child {
-                width: 50%; // ширина для названия товара
+                width: 8%; // ширина для ID заявки
             }
+
             &:nth-child(2) {
-                width: 30%; // ширина для приоритета
+                width: 15%; // ширина для товара
+                text-align: center;
             }
+
+            &:nth-child(3) {
+                width: 40%; // ширина для количества
+                text-align: center;
+            }
+            &:nth-child(4) {
+                width: 15%; // ширина для количества
+                text-align: center;
+            }
+            &:nth-child(5) {
+                width: 20%; // ширина для количества
+                text-align: center;
+            }
+
             &:last-child {
-                width: 20%; // ширина для действий
+                width: 15%; // ширина для действий
+                text-align: center;
+            }
+        }
+
+        th.sortable {
+            cursor: pointer; // Указатель курсора для заголовков, которые можно щелкнуть
+            background-color: #f2f2f2; // Цвет фона для заголовков
+            padding: 10px; // Отступы для заголовков
+            transition: background-color 0.3s; // Плавный переход цвета фона
+
+            &:hover {
+                background-color: #e0e0e0; // Цвет фона при наведении
             }
         }
 
         th {
+            position: relative; // Для позиционирования стрелок
             background-color: #f2f2f2;
             font-weight: bold;
         }
@@ -58,63 +88,90 @@ body {
             box-sizing: border-box;
         }
 
+        input[type="number"] {
+            text-align: center;
+        }
+
         button {
             padding: 5px 10px;
             border: none;
-            border-radius: 4px;
+            border-radius: 20px 20px;
             cursor: pointer;
             transition: background-color 0.3s;
 
             &:hover {
-                background-color: #007BFF; // цвет кнопки при наведении
+                background-color: #da1919; // цвет кнопки при наведении
                 color: white;
             }
 
             &:nth-child(1) {
-                background-color: #FFC107; // цвет кнопки "Изменить"
+                background-color: #000000; // цвет кнопки "Изменить"
                 margin-right: 5px;
-            }
-
-            &:nth-child(2) {
-                background-color: #dc3545; // цвет кнопки "Удалить"
-            }
-
-            &:last-child {
-                background-color: #28a745; // цвет кнопки "Добавить"
             }
         }
     }
 }
+
+.header_h2 {
+    font-size: 40px;
+    color: rgba(0, 0, 0, 0.3);
+    margin: 20px;
+    padding: 0px;
+    padding-bottom: 0px;
+    text-transform: uppercase;
+}
+
 .admin-header {
     background-color: black;
     color: white;
     padding: 10px;
-    
+
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
+
     span {
         display: flex;
         align-items: center;
+
         img {
-            width:80px;
+            width: 80px;
             height: auto;
             padding-left: 20px;
         }
     }
+
     .admin-controls {
-      display: flex;
-      gap: 25px;
-      padding-right: 30px;
-      a {
-        color: white;
-        text-decoration: none;
-        &:hover{
-            font-weight: 700;
-            border-bottom: .5px solid white;
-            transition: .2s ease-out;
+        display: flex;
+        gap: 25px;
+        padding-right: 30px;
+
+        a {
+            color: white;
+            text-decoration: none;
+
+            &:hover {
+                font-weight: 700;
+                border-bottom: .5px solid white;
+                transition: .2s ease-out;
+            }
         }
-      }
     }
-  }
+}
+
+.notification {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 0, 0, 0.8);
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    z-index: 1000;
+    transition: opacity 0.3s;
+
+    &.fade-out {
+        opacity: 0;
+    }
+}
