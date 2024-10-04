@@ -79,6 +79,8 @@ body {
             background-color: #f1f1f1; // цвет при наведении
         }
 
+        
+
         input[type="text"],
         input[type="number"] {
             width: 95%;
@@ -91,6 +93,8 @@ body {
         input[type="number"] {
             text-align: center;
         }
+
+        
 
         button {
             padding: 5px 10px;
@@ -111,6 +115,15 @@ body {
         }
     }
 }
+
+table tr:last-child {
+    background-color: #f2f2f2;
+}
+
+table tr:last-child:hover {
+    background-color: #e0e0e0; // цвет при наведении
+}
+
 
 .header_h2 {
     font-size: 40px;

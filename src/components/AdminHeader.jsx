@@ -16,8 +16,7 @@ const AdminHeader = () => {
                 <Link to="/admin" className={location.pathname === '/admin' ? 'active' : ''}>Главная</Link>
                 <Link to="/goods" className={location.pathname === '/goods' ? 'active' : ''}>Товары</Link>
                 <Link to="/sales" className={location.pathname === '/sales' ? 'active' : ''}>Заявки</Link>
-                <Link to="/warehouse1" className={location.pathname === '/warehouse1' ? 'active' : ''}>Склад 1</Link>
-                <Link to="/warehouse2" className={location.pathname === '/warehouse2' ? 'active' : ''}>Склад 2</Link>
+                <Link to="/warehouses" className={location.pathname === '/warehouses' ? 'active' : ''}>Склады</Link>
                 <button style={{ marginLeft: '20px', backgroundColor: 'red', color: 'white', border: 'none', cursor: 'pointer', padding: '5px 10px' }}>
                     <Link to="/"><i class="fa-solid fa-door-open"></i></Link>
                 </button>

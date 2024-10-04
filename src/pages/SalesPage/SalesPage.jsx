@@ -10,10 +10,28 @@ const SalesPage = () => {
     const [newSale, setNewSale] = useState({ good_id: '', good_count: '', create_date: '' });
     const [notification, setNotification] = useState('');
     const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ASC' });
+    const [goods, setGoods] = useState([]);
+
 
     useEffect(() => {
         fetchSales();
+        fetchGoods(); // добавляем функцию получения товаров
     }, []);
+    
+    const fetchGoods = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.get('http://localhost:8000/goods', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            setGoods(response.data);
+        } catch (error) {
+            console.error('Error fetching goods:', error);
+        }
+    };
+    
 
     const fetchSales = async () => {
         try {
@@ -51,6 +69,7 @@ const SalesPage = () => {
 
     const handleSave = async (id, index) => {
         const saleToUpdate = { ...sales[index], good_count: parseInt(sales[index].good_count) };
+        console.log(saleToUpdate);
         try {
             const token = localStorage.getItem('token');
             await axios.put(`http://localhost:8000/sales/${id}`, saleToUpdate, {
@@ -146,21 +165,7 @@ const SalesPage = () => {
                     {sales.map((sale, index) => (
                         <tr key={sale.id}>
                             <td>{sale.id}</td>
-                            <td>
-                                {editingIndex === index ? (
-                                    <input
-                                        type="number"
-                                        value={sale.good_id}
-                                        onChange={(e) => {
-                                            const updatedSales = [...sales];
-                                            updatedSales[index].good_id = e.target.value;
-                                            setSales(updatedSales);
-                                        }}
-                                    />
-                                ) : (
-                                    sale.good_id
-                                )}
-                            </td>
+                            <td>{sale.good_id}</td>
                             <td>{sale.good_name}</td>
                             <td>
                                 {editingIndex === index ? (
@@ -204,15 +209,20 @@ const SalesPage = () => {
                     ))}
                     <tr>
                         <td></td>
+                        <td></td>
                         <td>
-                            <input
-                                type="number"
+                            <select
                                 value={newSale.good_id}
                                 onChange={(e) => setNewSale({ ...newSale, good_id: e.target.value })}
-                                placeholder="ID товара"
-                            />
+                            >
+                                <option value="">Выберите товар</option>
+                                {goods.map((good) => (
+                                    <option key={good.id} value={good.id}>
+                                        {good.name}
+                                    </option>
+                                ))}
+                            </select>
                         </td>
-                        <td></td> {/* Новое поле для названия товара можно будет добавить в будущем */}
                         <td>
                             <input
                                 type="number"
@@ -233,7 +243,9 @@ const SalesPage = () => {
                             <button onClick={handleAdd}><i className="fa-solid fa-circle-plus"></i></button>
                         </td>
                     </tr>
+
                 </tbody>
+
             </table>
         </div>
     );
