@@ -1,0 +1,222 @@
+body {
+    background-color: #f9f9f9;
+}
+
+.warehouses-page {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .warehouses-page-container{
+        display: flex;
+        justify-content: center;
+        .warehouses-page-left{
+            width: 50%;
+            table {
+                margin-left:100px;
+            }
+            border-radius: 9.64px;
+            box-shadow: 5px 10px 50px 0px rgba(0, 0, 0, 0.1);
+            background: rgb(255, 255, 255);
+            padding: 20px;
+            margin: 10px;
+        }
+        .warehouses-page-right {
+            width: 50%;
+            table {
+                margin-left: 100px;
+            }
+            border-radius: 9.64px;
+            box-shadow: 5px 10px 50px 0px rgba(0, 0, 0, 0.1);
+            background: rgb(255, 255, 255);
+            padding: 20px;
+            margin: 10px;
+        }
+        hr {
+            width: 60%;
+        }
+    }
+
+    table {
+        width: 80%;
+        border-collapse: collapse;
+        align-self: center;
+        margin-bottom: 50px;
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+
+            &:first-child {
+                width: 8%; // ширина для ID заявки
+                text-align: center;
+            }
+
+            &:nth-child(2) {
+                width: 15%; // ширина для товара
+                text-align: center;
+            }
+
+            &:nth-child(3) {
+                width: 40%; // ширина для количества
+                text-align: center;
+            }
+
+            &:nth-child(4) {
+                width: 15%; // ширина для количества
+                text-align: center;
+            }
+
+            &:nth-child(5) {
+                width: 20%; // ширина для количества
+                text-align: center;
+            }
+
+            &:last-child {
+                width: 15%; // ширина для действий
+                text-align: center;
+            }
+        }
+
+        th.sortable {
+            cursor: pointer; // Указатель курсора для заголовков, которые можно щелкнуть
+            background-color: #f2f2f2; // Цвет фона для заголовков
+            padding: 10px; // Отступы для заголовков
+            transition: background-color 0.3s; // Плавный переход цвета фона
+
+            &:hover {
+                background-color: #e0e0e0; // Цвет фона при наведении
+            }
+        }
+
+        th {
+            position: relative; // Для позиционирования стрелок
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1; // цвет при наведении
+        }
+
+
+
+        input[type="text"],
+        input[type="number"] {
+            width: 95%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="number"] {
+            text-align: center;
+        }
+
+
+
+        button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 20px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+
+            &:hover {
+                background-color: #da1919; // цвет кнопки при наведении
+                color: white;
+            }
+
+            &:nth-child(1) {
+                background-color: #000000; // цвет кнопки "Изменить"
+                margin-right: 5px;
+            }
+        }
+    }
+}
+
+table tr:last-child {
+    background-color: #f2f2f2;
+}
+
+table tr:last-child:hover {
+    background-color: #e0e0e0; // цвет при наведении
+}
+
+
+.header_h2 {
+    font-size: 40px;
+    color: rgba(0, 0, 0, 0.3);
+    margin: 20px;
+    padding: 0px;
+    padding-bottom: 0px;
+    text-transform: uppercase;
+}
+
+.admin-header {
+    background-color: black;
+    color: white;
+    padding: 10px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    span {
+        display: flex;
+        align-items: center;
+
+        img {
+            width: 80px;
+            height: auto;
+            padding-left: 20px;
+        }
+    }
+
+    .admin-controls {
+        display: flex;
+        gap: 25px;
+        padding-right: 30px;
+
+        a {
+            color: white;
+            text-decoration: none;
+
+            &:hover {
+                font-weight: 700;
+                border-bottom: .5px solid white;
+                transition: .2s ease-out;
+            }
+        }
+    }
+}
+
+.notification {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 0, 0, 0.8);
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    z-index: 1000;
+    transition: opacity 0.3s;
+
+    &.fade-out {
+        opacity: 0;
+    }
+}

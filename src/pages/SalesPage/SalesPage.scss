@@ -8,17 +8,18 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    
 
     h2 {
         text-align: center;
         margin-bottom: 20px;
     }
-
     table {
         width: 50%;
         border-collapse: collapse;
         align-self: center;
         margin-bottom: 50px;
+        
 
         th,
         td {
