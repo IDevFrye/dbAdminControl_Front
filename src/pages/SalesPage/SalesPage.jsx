@@ -11,9 +11,15 @@ const SalesPage = () => {
     const [notification, setNotification] = useState('');
     const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ASC' });
     const [goods, setGoods] = useState([]);
+    const [role, setRole] = useState('');
 
+    const handleRole = () => {
+        const role = localStorage.getItem('role');
+        setRole(role);
+    }
 
     useEffect(() => {
+        handleRole();
         fetchSales();
         fetchGoods();
     }, []);
@@ -159,7 +165,9 @@ const SalesPage = () => {
                         <th className="sortable" onClick={() => sortSales('good_name')}>Название товара {sortConfig.key === 'good_name' && (sortConfig.direction === 'ASC' ? '↑' : '↓')}</th>
                         <th className="sortable" onClick={() => sortSales('good_count')}>Количество {sortConfig.key === 'good_count' && (sortConfig.direction === 'ASC' ? '↑' : '↓')}</th>
                         <th className="sortable" onClick={() => sortSales('create_date')}>Дата создания {sortConfig.key === 'create_date' && (sortConfig.direction === 'ASC' ? '↑' : '↓')}</th>
-                        <th>Действия</th>
+                        {role === 'admin'
+                        && (<th>Действия</th>)
+                        }
                     </tr>
                 </thead>
                 <tbody>
@@ -198,6 +206,8 @@ const SalesPage = () => {
                                     formatDate(sale.create_date)
                                 )}
                             </td>
+                            {role === 'admin'
+                            && (
                             <td>
                                 {editingIndex === index ? (
                                     <button onClick={() => handleSave(sale.id, index)}><i className="fa-solid fa-circle-check"></i></button>
@@ -205,9 +215,12 @@ const SalesPage = () => {
                                     <button onClick={() => handleEdit(index)}><i className="fa-solid fa-pencil"></i></button>
                                 )}
                                 <button onClick={() => handleDelete(sale.id)}><i className="fa-solid fa-trash"></i></button>
-                            </td>
+                            </td>)
+                            }
                         </tr>
                     ))}
+                    {role === 'admin'
+                            && (
                     <tr>
                         <td></td>
                         <td></td>
@@ -243,10 +256,9 @@ const SalesPage = () => {
                         <td>
                             <button onClick={handleAdd}><i className="fa-solid fa-circle-plus"></i></button>
                         </td>
-                    </tr>
-
+                    </tr>)
+                   }
                 </tbody>
-
             </table>
             </div>
         </div>

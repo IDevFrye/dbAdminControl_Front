@@ -145,7 +145,7 @@ const GoodsPage = () => {
                         <th className="sortable" onClick={() => sortGoods('id')}>ID {sortConfig.key === 'id' && (sortConfig.direction === 'ASC' ? '↑' : '↓')}</th>
                         <th className="sortable" onClick={() => sortGoods('name')}>Название {sortConfig.key === 'name' && (sortConfig.direction === 'ASC' ? '↑' : '↓')}</th>
                         <th className="sortable" onClick={() => sortGoods('priority')}>Приоритет {sortConfig.key === 'priority' && (sortConfig.direction === 'ASC' ? '↑' : '↓')}</th>
-                        {role === 'admin' ? (<th>Действия</th>) : (<div></div>)}
+                        {role === 'admin' && (<th>Действия</th>)}
                         
                     </tr>
                 </thead>
@@ -184,7 +184,7 @@ const GoodsPage = () => {
                                 )}
                             </td>
                              {role === 'admin' 
-                             ? (<td>
+                             && (<td>
                                 {editingIndex === index ? (
                                     <button onClick={() => handleSave(good.id, index)}><i className="fa-solid fa-circle-check"></i></button>
                                 ) : (
@@ -192,12 +192,12 @@ const GoodsPage = () => {
                                 )}
                                 <button onClick={() => handleDelete(good.id)}><i className="fa-solid fa-trash"></i></button>
                             </td>)
-                             : (<div></div>)}
+                             }
                             
                         </tr>
                     ))}
                     {role === 'admin' 
-                             ? (
+                             && (
                     <tr>
                         <td></td>
                         <td>
@@ -220,7 +220,7 @@ const GoodsPage = () => {
                             <button onClick={handleAdd}><i className="fa-solid fa-circle-plus"></i></button>
                         </td>
                     </tr>)
-                    : (<div></div>)}
+                    }
                 </tbody>
             </table>
             </div>

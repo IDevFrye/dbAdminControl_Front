@@ -17,8 +17,14 @@ const WarehousesPage = () => {
     const [editingIndex2, setEditingIndex2] = useState(-1);
     const [sortConfigWH1, setSortConfigWH1] = useState({});
     const [sortConfigWH2, setSortConfigWH2] = useState({});
+    const [role, setRole] = useState('');
 
+    const handleRole = () => {
+        const role = localStorage.getItem('role');
+        setRole(role);
+    }
     useEffect(()=>{
+        handleRole();
         fetchWH1();
         fetchWH2();
         fetchGoods1();
@@ -258,7 +264,11 @@ const WarehousesPage = () => {
                 <div className="warehouses-page-left">
                     <h2 className="header_h2">Склад 1</h2>
                     <hr></hr>
-                    <AddGoods warehouseId={1} onGoodsAdded={fetchGoods1} />
+                    {role === 'admin'
+                    ?(
+                        <AddGoods warehouseId={1} onGoodsAdded={fetchGoods1} />
+                    ):(<div></div>)}
+                    
                     <table>
                         <thead>
                             <tr>
@@ -266,9 +276,12 @@ const WarehousesPage = () => {
                                 <th className='sortable' onClick={()=>{sortGoodsWH1('good_id')}}>ID товара{sortConfigWH1.key === 'good_id' && (sortConfigWH1.direction === 'ASC' ? '↑' : '↓')}</th>
                                 <th className='sortable' onClick={()=>{sortGoodsWH1('good_name')}}>Название товара{sortConfigWH1.key === 'good_name' && (sortConfigWH1.direction === 'ASC' ? '↑' : '↓')}</th>
                                 <th className='sortable' onClick={()=>{sortGoodsWH1('good_count')}}>Количество{sortConfigWH1.key === 'good_count' && (sortConfigWH1.direction === 'ASC' ? '↑' : '↓')}</th>
-                                <th>Действия</th>
+                                {role === 'admin' && (
+                                    <th>Действия</th>
+                                )}
                             </tr>
                         </thead>
+
                         <tbody>
                             {wh1goods.map((good, index) => (
                                 <tr key={good.id}>
@@ -290,6 +303,8 @@ const WarehousesPage = () => {
                                             good.good_count
                                         )}
                                     </td>
+                                    {role === 'admin'
+                                    &&(
                                     <td>
                                         {editingIndex === index ? (
                                             <button onClick={()=>{handleSave_W1(good.id, index)}}><i className="fa-solid fa-circle-check"></i></button>
@@ -297,9 +312,12 @@ const WarehousesPage = () => {
                                             <button onClick={()=>{handleEdit(index)}}><i className="fa-solid fa-pencil"></i></button>
                                         )}
                                         <button onClick={()=>{handleDelete_W1(good.id)}}><i className="fa-solid fa-trash"></i></button>
-                                    </td>
+                                    </td>)
+                                    }
                                 </tr>
                             ))}
+                            {role === 'admin'
+                                    &&(
                             <tr>
                                 <td></td>
                                 <td></td>
@@ -327,14 +345,17 @@ const WarehousesPage = () => {
                                     />
                                 </td>
                                 <td><button onClick={handleAdd_W1}><i className="fa-solid fa-circle-plus"></i></button></td>
-                            </tr>
+                            </tr>)}
                         </tbody>
                     </table>
                 </div>
                 <div className="warehouses-page-right">
                     <h2 className="header_h2">Склад 2</h2>
                     <hr></hr>
-                    <AddGoods warehouseId={2} onGoodsAdded={fetchGoods2} />
+                    {role === 'admin'
+                    ?(
+                        <AddGoods warehouseId={2} onGoodsAdded={fetchGoods2} />
+                    ):(<div></div>)}
                     {notification && <Notification message={notification} onClose={()=> setNotification('')}/>}
                     <table>
                         <thead>
@@ -343,7 +364,10 @@ const WarehousesPage = () => {
                                 <th className='sortable' onClick={()=>{sortGoodsWH2('good_id')}}>ID товара{sortConfigWH2.key === 'good_id' && (sortConfigWH2.direction === 'ASC' ? '↑' : '↓')}</th>
                                 <th className='sortable' onClick={()=>{sortGoodsWH2('good_name')}}>Название товара{sortConfigWH2.key === 'good_name' && (sortConfigWH2.direction === 'ASC' ? '↑' : '↓')}</th>
                                 <th className='sortable' onClick={()=>{sortGoodsWH2('good_count')}}>Количество{sortConfigWH2.key === 'good_count' && (sortConfigWH2.direction === 'ASC' ? '↑' : '↓')}</th>
-                                <th>Действия</th>
+                                {role === 'admin'
+                                &&(
+                                    <th>Действия</th>)
+                                }
                             </tr>
                         </thead>
                         <tbody>
@@ -367,16 +391,20 @@ const WarehousesPage = () => {
                                             good.good_count
                                         )}
                                     </td>
-                                    <td>
+                                    
+                                    {role === 'admin'
+                                    &&(<td>
                                         {editingIndex2 === index ? (
                                             <button onClick={()=>{handleSave_W2(good.id, index)}}><i className="fa-solid fa-circle-check"></i></button>
                                         ) : (
                                             <button onClick={()=>{handleEdit2(index)}}><i className="fa-solid fa-pencil"></i></button>
                                         )}
                                         <button onClick={()=>{handleDelete_W2(good.id)}}><i className="fa-solid fa-trash"></i></button>
-                                    </td>
+                                    </td>)}
                                 </tr>
                             ))}
+                            {role === 'admin'
+                                    &&(
                             <tr>
                                 <td></td>
                                 <td></td>
@@ -404,7 +432,7 @@ const WarehousesPage = () => {
                                     />
                                 </td>
                                 <td><button onClick={handleAdd_W2}><i className="fa-solid fa-circle-plus"></i></button></td>
-                            </tr>
+                            </tr>)}
                         </tbody>
                     </table>
                 </div>

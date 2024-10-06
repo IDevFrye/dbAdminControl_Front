@@ -39,6 +39,7 @@ const LoginPage = () => {
     <div className="login-page">
       <img src={logo} alt="" />
       <h1>Авторизация</h1>
+      <h6>УЦ Оптовые Продажи</h6>
       <form onSubmit={handleLogin}>
         <div className="input-group">
           <label>Логин:</label>
