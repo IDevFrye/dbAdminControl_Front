@@ -1,10 +1,8 @@
-// AdminHeader.jsx
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation} from 'react-router-dom';
-import logo from '../pages/AdminPage/logo.png'; // Обновите путь к вашему логотипу
-
+import logo from '../pages/AdminPage/logo.png'; 
 const AdminHeader = () => {
-    const location = useLocation(); // Получаем текущее местоположение
+    const location = useLocation();
     const [role, setRole] = useState('');
 
     const handleRole = () => {

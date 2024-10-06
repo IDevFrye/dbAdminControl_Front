@@ -15,7 +15,7 @@ const SalesPage = () => {
 
     useEffect(() => {
         fetchSales();
-        fetchGoods(); // добавляем функцию получения товаров
+        fetchGoods();
     }, []);
     
     const fetchGoods = async () => {

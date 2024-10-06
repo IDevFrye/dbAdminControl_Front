@@ -1,11 +1,10 @@
-// src/components/Notification.jsx
 import React, { useEffect } from 'react';
 
 const Notification = ({ message, onClose }) => {
     useEffect(() => {
         const timer = setTimeout(() => {
             onClose();
-        }, 3000); // Убираем уведомление через 3 секунды
+        }, 3000);
 
         return () => clearTimeout(timer);
     }, [onClose]);

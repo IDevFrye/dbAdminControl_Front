@@ -34,21 +34,18 @@ const StockRequestInfo = () => {
         try {
             const token = document.cookie.split('; ').find(row => row.startsWith('token=')).split('=')[1];
 
-            // Получаем данные о наличии товара на складах
             const stockResponse = await axios.get(`http://localhost:8000/warehouse_counts?good_id=${selectedGood}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
 
-            // Получаем данные о количестве в заявках
             const requestResponse = await axios.get(`http://localhost:8000/sales_counts?good_id=${selectedGood}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
 
-            // Обновляем состояние
             setStocks({
                 warehouse1: stockResponse.data.warehouse1_count || 0,
                 warehouse2: stockResponse.data.warehouse2_count || 0,
@@ -103,7 +100,6 @@ const StockRequestInfo = () => {
     );
 };
 
-// Функция для определения цвета приоритета
 const getPriorityColor = (priority) => {
     if (priority <= 1) return '#f55142';
     if (priority <= 3) return '#f5aa42';

@@ -10,10 +10,10 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
-import { format } from 'date-fns'; // Для форматирования дат
-import { ru } from 'date-fns/locale'; // Локализация для русского языка
+import { format } from 'date-fns';
+import { ru } from 'date-fns/locale'; 
 
-// Регистрация необходимых компонентов
+
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const DemandChangeChart = () => {
@@ -23,7 +23,7 @@ const DemandChangeChart = () => {
     const [endDate, setEndDate] = useState('');
     const [demandData, setDemandData] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [dataFetched, setDataFetched] = useState(false); // Новое состояние для контроля отображения графика
+    const [dataFetched, setDataFetched] = useState(false); 
 
     useEffect(() => {
         const fetchGoods = async () => {
@@ -46,7 +46,7 @@ const DemandChangeChart = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setDataFetched(false); // Сбрасываем состояние, чтобы скрыть график перед загрузкой новых данных
+        setDataFetched(false); 
         try {
             const token = document.cookie.split('; ').find(row => row.startsWith('token=')).split('=')[1];
             const response = await axios.get(`http://localhost:8000/demand_change`, {
@@ -60,7 +60,7 @@ const DemandChangeChart = () => {
                 },
             });
             setDemandData(response.data);
-            setDataFetched(true); // Устанавливаем состояние, когда данные были успешно загружены
+            setDataFetched(true); 
         } catch (error) {
             console.error('Error fetching demand data:', error);
         } finally {
@@ -68,7 +68,6 @@ const DemandChangeChart = () => {
         }
     };
 
-    // Функция для форматирования дат в "дд.мм.гггг"
     const formatDate = (dateString) => {
         return format(new Date(dateString), 'dd.MM.yyyy', { locale: ru });
     };
@@ -79,7 +78,7 @@ const DemandChangeChart = () => {
             {
                 label: 'Количество продаж',
                 data: demandData.map(item => item.total_sold),
-                backgroundColor: 'rgba(54, 162, 235, 0.6)', // Синий цвет для приятного вида
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1,
             },
@@ -88,7 +87,7 @@ const DemandChangeChart = () => {
 
     const chartOptions = {
         responsive: true,
-        maintainAspectRatio: false, // Чтобы управлять шириной и высотой
+        maintainAspectRatio: false, 
         plugins: {
             legend: {
                 position: 'top',
@@ -97,7 +96,7 @@ const DemandChangeChart = () => {
         scales: {
             x: {
                 ticks: {
-                    maxRotation: 45, // Ограничить максимальный угол поворота текста
+                    maxRotation: 45, 
                     minRotation: 0,
                 },
             },
@@ -140,7 +139,7 @@ const DemandChangeChart = () => {
             </form>
             {loading ? <p>Loading...</p> : (
                 dataFetched ? (
-                    <div style={{ width: '600px', height: '400px' }}> {/* Установка размеров */}
+                    <div style={{ width: '600px', height: '400px' }}> 
                         <Bar data={chartData} options={chartOptions} />
                     </div>
                 ) : (

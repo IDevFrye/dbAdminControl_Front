@@ -11,12 +11,11 @@ import {
     Legend
 } from 'chart.js';
 
-// Регистрация необходимых компонентов для графика
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const TopGoodsChart = () => {
-    const [data, setData] = useState(null);  // Изначально данные null, а не []
-    const [loading, setLoading] = useState(false); // Обновил начальное состояние для четкости
+    const [data, setData] = useState(null); 
+    const [loading, setLoading] = useState(false);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
 
@@ -29,7 +28,7 @@ const TopGoodsChart = () => {
                 throw new Error('Token not found');
             }
 
-            console.log('Using token:', token); // Для отладки
+            console.log('Using token:', token);
 
             const response = await axios.get(`http://localhost:8000/top_goods?start=${startDate}&end=${endDate}`, {
                 headers: {
@@ -38,14 +37,14 @@ const TopGoodsChart = () => {
             });
 
             if (response.data && response.data.length > 0) {
-                setData(response.data);  // Обновляем данные только если они есть
+                setData(response.data); 
             } else {
-                setData([]);  // Если данных нет, устанавливаем пустой массив
+                setData([]);  
             }
 
         } catch (error) {
             console.error('Error fetching top goods:', error.response ? error.response.data : error);
-            setData([]);  // В случае ошибки также устанавливаем пустой массив
+            setData([]); 
         } finally {
             setLoading(false);
         }
@@ -58,11 +57,11 @@ const TopGoodsChart = () => {
     };
 
     const chartData = {
-        labels: data ? data.map(item => item.name) : [],  // Если данных нет, возвращаем пустой массив
+        labels: data ? data.map(item => item.name) : [],  
         datasets: [
             {
                 label: 'Количество продаж',
-                data: data ? data.map(item => item.total_sold) : [],  // Если данных нет, возвращаем пустой массив
+                data: data ? data.map(item => item.total_sold) : [],  
                 backgroundColor: 'rgba(75, 192, 192, 0.6)',
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1,
@@ -72,7 +71,7 @@ const TopGoodsChart = () => {
 
     const chartOptions = {
         responsive: true,
-        maintainAspectRatio: false,  // Отменяет фиксированное соотношение сторон
+        maintainAspectRatio: false,  
         plugins: {
             legend: {
                 position: 'top',
@@ -96,7 +95,7 @@ const TopGoodsChart = () => {
     };
 
     return (
-        <div > {/* Ограничиваем ширину и центрируем */}
+        <div >
         <h2>Топ-5 популярных товаров</h2>
             <form onSubmit={handleSubmit} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
                 <input 
@@ -117,7 +116,7 @@ const TopGoodsChart = () => {
             </form>
             {loading ? <p>Loading...</p> : (
                 data && data.length > 0 ? (
-                    <div style={{ height: '400px' }}> {/* Ограничиваем высоту контейнера диаграммы */}
+                    <div style={{ height: '400px' }}>
                         <Bar data={chartData} options={chartOptions} />
                     </div>
                 ) : <p>Нет данных для отображения. Пожалуйста, выберите даты.</p>

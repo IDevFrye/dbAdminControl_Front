@@ -16,11 +16,10 @@ import {
 import { format, addDays, isValid, parseISO } from 'date-fns';
 import { ru } from 'date-fns/locale';
 
-// Регистрация необходимых компонентов
 ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend, Filler);
 
 const ForecastDemandChart = () => {
-    const [goods, setGoods] = useState([]); // Хранение списка товаров
+    const [goods, setGoods] = useState([]);
     const [selectedGood, setSelectedGood] = useState('');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
@@ -28,7 +27,6 @@ const ForecastDemandChart = () => {
     const [loading, setLoading] = useState(false);
     const [dataFetched, setDataFetched] = useState(false);
 
-    // Функция для загрузки списка товаров
     const fetchGoods = async () => {
         try {
             const token = document.cookie.split('; ').find(row => row.startsWith('token=')).split('=')[1];
@@ -43,7 +41,6 @@ const ForecastDemandChart = () => {
         }
     };
 
-    // Эффект для загрузки товаров при монтировании компонента
     useEffect(() => {
         fetchGoods();
     }, []);
@@ -64,7 +61,7 @@ const ForecastDemandChart = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            setForecastData(response.data.forecast); // Обновляем с учетом изменения на бэкенде
+            setForecastData(response.data.forecast); 
             setDataFetched(true);
         } catch (error) {
             console.error('Ошибка при получении данных прогноза:', error);
@@ -73,20 +70,20 @@ const ForecastDemandChart = () => {
         }
     };
 
-    // Подготовка данных для графика
+
     const chartData = {
         labels: Array.from({ length: 7 }, (_, i) => {
-            const nextDate = addDays(parseISO(endDate), i + 1); // Парсинг даты
-            return isValid(nextDate) ? format(nextDate, 'dd.MM.yyyy', { locale: ru }) : ''; // Проверка на корректность даты
+            const nextDate = addDays(parseISO(endDate), i + 1); 
+            return isValid(nextDate) ? format(nextDate, 'dd.MM.yyyy', { locale: ru }) : ''; 
         }),
         datasets: [
             {
                 label: 'Прогноз спроса',
-                data: forecastData, // Прогнозные значения
+                data: forecastData, 
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                 borderColor: 'rgba(255, 99, 132, 1)',
                 borderWidth: 2,
-                fill: true, // Заполняем под линией
+                fill: true,
             },
         ],
     };
@@ -147,7 +144,7 @@ const ForecastDemandChart = () => {
             {loading ? <p>Loading...</p> : (
                 dataFetched ? (
                     <div style={{ width: '600px', height: '400px' }}>
-                        <Line data={chartData} options={chartOptions} /> {/* Используем компонент Line */}
+                        <Line data={chartData} options={chartOptions} /> 
                     </div>
                 ) : (
                     forecastData.length === 0 && <p>Нет данных для отображения. Пожалуйста, выберите товар и даты.</p>

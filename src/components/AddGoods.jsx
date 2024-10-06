@@ -12,20 +12,16 @@ const AddGoods = ({ warehouseId, onGoodsAdded }) => {
     }, [warehouseId]);
 
     const aggregateGoods = (goods) => {
-        // Объект для хранения товаров с одинаковыми good_id
         const aggregatedGoods = {};
 
         goods.forEach(({ good_id, good_count }) => {
             if (aggregatedGoods[good_id]) {
-                // Если товар с таким good_id уже есть, увеличиваем количество
                 aggregatedGoods[good_id] += parseInt(good_count, 10);
             } else {
-                // Иначе создаем новую запись
                 aggregatedGoods[good_id] = parseInt(good_count, 10);
             }
         });
 
-        // Преобразуем обратно в массив объектов
         return Object.entries(aggregatedGoods).map(([good_id, good_count]) => ({
             good_id,
             good_count,
@@ -93,7 +89,7 @@ const AddGoods = ({ warehouseId, onGoodsAdded }) => {
                 throw new Error('Ошибка при добавлении товаров');
             }
             alert('Товары успешно добавлены!');
-            onGoodsAdded(); // Добавьте эту строку
+            onGoodsAdded();
         } catch (err) {
             setError(err.response ? err.response.data.message : err.message);
         } finally {

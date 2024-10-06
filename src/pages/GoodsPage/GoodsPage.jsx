@@ -11,8 +11,8 @@ const GoodsPage = () => {
     const [editingIndex, setEditingIndex] = useState(-1);
     const [newGood, setNewGood] = useState({ name: '', priority: '' });
     const [error, setError] = useState('');
-    const [notification, setNotification] = useState(''); // Состояние для уведомлений
-    const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ASC' }); // Состояние для сортировки
+    const [notification, setNotification] = useState(''); 
+    const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ASC' }); 
     const [role, setRole] = useState('');
 
     const handleRole = () => {
@@ -26,7 +26,7 @@ const GoodsPage = () => {
 
     const fetchGoods = async () => {
         try {
-            const token = localStorage.getItem('token'); // Извлекаем токен из localStorage
+            const token = localStorage.getItem('token'); 
             const response = await axios.get('http://localhost:8000/goods1', {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -45,7 +45,7 @@ const GoodsPage = () => {
     const handleDelete = async (id) => {
         if (window.confirm("Вы уверены, что хотите удалить этот товар?")) {
             try {
-                const token = localStorage.getItem('token'); // Извлекаем токен из localStorage
+                const token = localStorage.getItem('token'); 
                 await axios.delete(`http://localhost:8000/goods/${id}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -54,7 +54,7 @@ const GoodsPage = () => {
                 fetchGoods();
             } catch (error) {
                 if (error.response) {
-                    setError(error.response.data); // Отображаем сообщение об ошибке
+                    setError(error.response.data); 
                 } else {
                     console.error('Error deleting good:', error);
                     setError('Произошла ошибка при удалении товара.');
@@ -66,7 +66,7 @@ const GoodsPage = () => {
     const handleSave = async (id, index) => {
         const goodToUpdate = { ...goods[index], priority: parseFloat(goods[index].priority) };
         try {
-            const token = localStorage.getItem('token'); // Извлекаем токен из localStorage
+            const token = localStorage.getItem('token'); 
             await axios.put(`http://localhost:8000/goods/${id}`, goodToUpdate, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -77,8 +77,8 @@ const GoodsPage = () => {
         } catch (error) {
             console.error('Error updating good:', error);
             if (error.response) {
-                setNotification(error.response.data); // Устанавливаем сообщение об ошибке
-                showNotification(); // Показать уведомление
+                setNotification(error.response.data);
+                showNotification(); 
             }
         }
     };
@@ -89,7 +89,7 @@ const GoodsPage = () => {
                 name: newGood.name,
                 priority: parseFloat(newGood.priority),
             };
-            const token = localStorage.getItem('token'); // Извлекаем токен из localStorage
+            const token = localStorage.getItem('token'); 
             await axios.post('http://localhost:8000/goods', goodToAdd, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -100,15 +100,15 @@ const GoodsPage = () => {
         } catch (error) {
             console.error('Error adding good:', error);
             if (error.response) {
-                setNotification(error.response.data); // Устанавливаем сообщение об ошибке
-                showNotification(); // Показать уведомление
+                setNotification(error.response.data); 
+                showNotification(); 
             }
         }
     };
 
     const showNotification = () => {
         setTimeout(() => {
-            setNotification(''); // Скрываем уведомление через 3 секунды
+            setNotification('');
         }, 3000);
     };
 

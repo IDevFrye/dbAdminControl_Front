@@ -1,4 +1,3 @@
-// src/pages/AdminPage/AdminPage.jsx
 import React from "react";
 import logo from "./logo.png";
 import "./AdminPage.scss";
@@ -6,7 +5,7 @@ import TopGoodsChart from './TopGoodsChart';
 import DemandChangeChart from './DemandChangeChart';
 import StockRequestInfo from '../../components/StockRequestInfo';
 import ForecastDemandChart from './ForecastDemandChart';
-import GoodsTransferInfo from '../../components/GoodsTransferInfo'; // Импортируем новый компонент
+import GoodsTransferInfo from '../../components/GoodsTransferInfo'; 
 import { Link } from "react-router-dom";
 import AdminHeader from '../../components/AdminHeader';
 
@@ -43,7 +42,6 @@ const AdminPage = () => {
           </div>
           
           <div className="additional-chart" style={{ height: '25%' }}>
-            {/* Здесь можно добавить дополнительную диаграмму */}
           </div>
         </div>
       </div>

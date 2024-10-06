@@ -43,7 +43,6 @@ const UserPage = () => {
           </div>
           
           <div className="additional-chart" style={{ height: '25%' }}>
-            {/* Здесь можно добавить дополнительную диаграмму */}
           </div>
         </div>
       </div>

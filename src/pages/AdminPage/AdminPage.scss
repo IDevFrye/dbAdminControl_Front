@@ -52,7 +52,6 @@ body {
           }
             &:hover {
               background-color: rgb(255, 255, 255);
-              /* Темнее при наведении */
             }
           }
         a {
@@ -68,11 +67,8 @@ body {
           &.active {
             color: rgb(241, 68, 68);
             font-weight: 700;
-            /* Подсветка активной ссылки */
             pointer-events: none;
-            /* Отключить наведение для активной ссылки */
             border-bottom: none;
-            /* Убираем нижнюю границу */
           }
         }
       }
@@ -87,8 +83,8 @@ body {
     .charts {
       flex: 1;
       border-radius: 9.64px;
-    box-shadow: 5px 10px 50px 0px rgba(0, 0, 0, 0.1);
-    background: rgb(255, 255, 255);
+      box-shadow: 5px 10px 50px 0px rgba(0, 0, 0, 0.1);
+      background: rgb(255, 255, 255);
       padding: 20px;
       margin: 10px;
   
@@ -126,7 +122,7 @@ body {
       }
   
       .additional-chart {
-        margin-top: auto; // Чтобы оставалось место для других элементов
+        margin-top: auto;
       }
     }
   }
@@ -154,8 +150,6 @@ body {
 
   .info_data {
     margin-top: 10px;
-    // border: 1px solid black;
-    // border-radius: 10px;
     padding: 5px 10px;
     font-size: 14px;
     line-height: 10px;
@@ -166,7 +160,6 @@ body {
         display: flex;
         flex-flow:column nowrap;
         align-items:center ;
-        // border: 1px solid black;
         flex-grow: 1;
         margin: 10px;
         padding: 15px;
@@ -189,50 +182,46 @@ body {
     }
   }
 
-  /* Стили для форм, кнопок и выпадающих списков */
 input,
 select,
 button {
-    font-family: 'Montserrat', sans-serif; // Шрифт для всех форм
-    padding: 10px; // Добавляем отступы
-    border: none; // Убираем границы
-    border-radius: 5px; // Закругляем углы
-    background-color: #f0f0f0; // Светлый фон для полей ввода
-    transition: background-color 0.3s; // Плавный переход для цвета фона
+    font-family: 'Montserrat', sans-serif;
+    padding: 10px; 
+    border: none;
+    border-radius: 5px; 
+    background-color: #f0f0f0; 
+    transition: background-color 0.3s; 
 }
 
 input:focus,
 select:focus {
-    outline: none; // Убираем обводку
-    background-color: #e1e1e1; // Цвет фона при фокусе
+    outline: none; 
+    background-color: #e1e1e1;
 }
 
 button {
-    cursor: pointer; // Изменяем курсор на указатель
-    background-color: #ff0000; // Цвет фона кнопки
-    color: white; // Цвет текста
-    border: none; // Убираем границу
-    transition: background-color 0.3s; // Плавный переход для цвета фона кнопки
+    cursor: pointer;
+    background-color: #ff0000;
+    color: white;
+    border: none; 
+    transition: background-color 0.3s;
 }
 
 button:hover {
-    background-color: #a80505; // Цвет фона кнопки при наведении
+    background-color: #a80505;
 }
 
-/* Стили для выпадающего списка */
 select {
-    appearance: none; // Убираем стандартный стиль
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><polygon points="7,10 12,15 17,10" fill="black"/></svg>'); // Стиль стрелки вниз
-    background-repeat: no-repeat; // Не повторяем изображение
-    background-position: right 10px center; // Позиция стрелки
-    background-size: 12px; // Размер стрелки
+    appearance: none; 
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><polygon points="7,10 12,15 17,10" fill="black"/></svg>'); 
+    background-repeat: no-repeat; 
+    background-position: right 10px center; 
+    background-size: 12px; 
 }
 
-/* Стили для элемента, чтобы убрать черную границу */
 .stock-request-info {
     margin-bottom: 20px;
     padding: 10px;
-    // Тень для секции
 }
 
 .goods-transfer-info {
@@ -290,21 +279,13 @@ select {
 
         .disabled-button {
           background-color: #ccc;
-          /* Светло-серый фон для неактивной кнопки */
           color: #666;
-          /* Тусклый текст для неактивной кнопки */
           cursor: not-allowed;
-          /* Курсор не разрешен */
           border: 1px solid #aaa;
-          /* Серая рамка для неактивной кнопки */
         }
     
-        /* Убираем эффект наведения на неактивную кнопку */
         .disabled-button:hover {
           background-color: #ccc;
-          /* Оставляем тот же фон при наведении */
           color: #666;
-          /* Оставляем тот же текст при наведении */
           border: 1px solid #aaa;
-          /* Оставляем тот же бордер при наведении */
         }

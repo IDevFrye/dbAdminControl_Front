@@ -33,34 +33,34 @@ body {
             text-align: left;
 
             &:first-child {
-                width: 8%; // ширина для названия товара
+                width: 8%;
                 
             }
             &:nth-child(2) {
-                width: 60%; // ширина для приоритета
+                width: 60%;
             }
             &:nth-child(3) {
-                width: 20%; // ширина для приоритет
+                width: 20%;
                 text-align: center
             }
             &:last-child {
-                width: 15%; // ширина для действий
+                width: 15%; 
                 text-align: center
             }
         }
                 th.sortable {
-                    cursor: pointer; // Указатель курсора для заголовков, которые можно щелкнуть
-                    background-color: #f2f2f2; // Цвет фона для заголовков
-                    padding: 10px; // Отступы для заголовков
-                    transition: background-color 0.3s; // Плавный переход цвета фона
+                    cursor: pointer; 
+                    background-color: #f2f2f2; 
+                    padding: 10px; 
+                    transition: background-color 0.3s;
         
                     &:hover {
-                        background-color: #e0e0e0; // Цвет фона при наведении
+                        background-color: #e0e0e0;
                     }
                 }
         
                 th {
-                    position: relative; // Для позиционирования стрелок
+                    position: relative; 
                 }
         th {
             background-color: #f2f2f2;
@@ -72,7 +72,7 @@ body {
         }
 
         tr:hover {
-            background-color: #f1f1f1; // цвет при наведении
+            background-color: #f1f1f1;
         }
 
         input[type="text"],
@@ -95,12 +95,12 @@ body {
             transition: background-color 0.3s;
 
             &:hover {
-                background-color: #da1919; // цвет кнопки при наведении
+                background-color: #da1919;
                 color: white;
             }
 
             &:nth-child(1) {
-                background-color: #000000; // цвет кнопки "Изменить"
+                background-color: #000000; 
                 margin-right: 5px;
             }
 

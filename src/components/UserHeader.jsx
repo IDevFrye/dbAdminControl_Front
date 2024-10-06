@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation} from 'react-router-dom';
-import logo from '../pages/AdminPage/logo.png'; // Обновите путь к вашему логотипу
-
+import logo from '../pages/AdminPage/logo.png'; 
 const UserHeader = () => {
     const location = useLocation();
     const [role, setRole] = useState('');

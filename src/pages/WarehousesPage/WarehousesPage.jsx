@@ -1,4 +1,3 @@
-// src/pages/GoodsPage/GoodsPage.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './WarehousesPage.scss';
@@ -94,9 +93,7 @@ const WarehousesPage = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            // Очистка состояния
             setNewGoodWH1({good_id: '', good_count: ''});
-            // Обновление данных сразу после добавления
             fetchWH1();
         } catch (error) {
             console.error("Error by adding: " + error);
@@ -132,7 +129,6 @@ const WarehousesPage = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            // Обновление данных сразу после удаления
             fetchWH1();
         } catch (error) {
             console.error("Error by deleting: " + error);
@@ -168,9 +164,7 @@ const WarehousesPage = () => {
                 Authorization: `Bearer ${token}`,
             },
         });
-        // Сброс индекса редактирования
         setEditingIndex(-1);
-        // Обновление данных сразу после сохранения
         fetchWH1();
     } catch (error) {
         console.error("Error by saving: " + error);

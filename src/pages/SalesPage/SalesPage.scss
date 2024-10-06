@@ -37,46 +37,46 @@ body {
             text-align: left;
 
             &:first-child {
-                width: 8%; // ширина для ID заявки
+                width: 8%;
             }
 
             &:nth-child(2) {
-                width: 15%; // ширина для товара
+                width: 15%;
                 text-align: center;
             }
 
             &:nth-child(3) {
-                width: 40%; // ширина для количества
+                width: 40%;
                 text-align: center;
             }
             &:nth-child(4) {
-                width: 15%; // ширина для количества
+                width: 15%;
                 text-align: center;
             }
             &:nth-child(5) {
-                width: 20%; // ширина для количества
+                width: 20%;
                 text-align: center;
             }
 
             &:last-child {
-                width: 15%; // ширина для действий
+                width: 15%;
                 text-align: center;
             }
         }
 
         th.sortable {
-            cursor: pointer; // Указатель курсора для заголовков, которые можно щелкнуть
-            background-color: #f2f2f2; // Цвет фона для заголовков
-            padding: 10px; // Отступы для заголовков
-            transition: background-color 0.3s; // Плавный переход цвета фона
+            cursor: pointer; 
+            background-color: #f2f2f2;
+            padding: 10px;
+            transition: background-color 0.3s;
 
             &:hover {
-                background-color: #e0e0e0; // Цвет фона при наведении
+                background-color: #e0e0e0; 
             }
         }
 
         th {
-            position: relative; // Для позиционирования стрелок
+            position: relative; 
             background-color: #f2f2f2;
             font-weight: bold;
         }
@@ -86,7 +86,7 @@ body {
         }
 
         tr:hover {
-            background-color: #f1f1f1; // цвет при наведении
+            background-color: #f1f1f1; 
         }
 
         
@@ -114,12 +114,12 @@ body {
             transition: background-color 0.3s;
 
             &:hover {
-                background-color: #da1919; // цвет кнопки при наведении
+                background-color: #da1919; 
                 color: white;
             }
 
             &:nth-child(1) {
-                background-color: #000000; // цвет кнопки "Изменить"
+                background-color: #000000;
                 margin-right: 5px;
             }
         }
@@ -131,7 +131,7 @@ table tr:last-child {
 }
 
 table tr:last-child:hover {
-    background-color: #e0e0e0; // цвет при наведении
+    background-color: #e0e0e0; 
 }
 
 

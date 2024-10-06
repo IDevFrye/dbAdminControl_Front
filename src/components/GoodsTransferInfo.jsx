@@ -3,9 +3,8 @@ import axios from 'axios';
 
 const GoodsTransferInfo = () => {
     const [goodsTransfer, setGoodsTransfer] = useState([]);
-    const [sortDirection, setSortDirection] = useState('asc'); // Состояние для направления сортировки
+    const [sortDirection, setSortDirection] = useState('asc');
     const [role, setRole] = useState('');
-    // Функция для получения товаров для перевода
     const fetchGoodsTransfer = async () => {
         try {
             const role = localStorage.getItem('role');
@@ -27,22 +26,16 @@ const GoodsTransferInfo = () => {
         fetchGoodsTransfer();
     }, []);
 
-    // Функция для определения цвета фона в зависимости от приоритета
     const getRowStyle = (priority) => {
         if (priority >= 4) return { backgroundColor: '#6fbd5744', color: 'white' };
         else if (priority >= 3) return { backgroundColor: '#f5aa4244', color: 'black' };
         else return { backgroundColor: '#f5514244', color: 'white' };
     };
 
-    // Обработчик нажатия кнопки "Списать"
     const handleTransfer = async (good) => {
         try {
             const token = localStorage.getItem('token');
-
-            // Логирование перед отправкой запроса
             console.log('Initiating transfer for good:', good);
-
-            // Отправляем запрос на перевод
             const response = await axios.post('http://localhost:8000/transfer-goods', {
                 good_id: good.good_id,
                 amount: parseInt(good.need_to_transfer, 10),
@@ -51,20 +44,15 @@ const GoodsTransferInfo = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-
-            // Логирование успешного ответа
             console.log('Transfer response:', response.data);
-
-            // После успешного перевода обновляем данные
             alert(`Товар "${good.good_name}" успешно переведен`);
-            fetchGoodsTransfer(); // Обновляем список товаров после перевода
+            fetchGoodsTransfer(); 
         } catch (error) {
             console.error('Ошибка при переводе товара:', error);
             alert(error.response ? error.response.data : 'Не удалось перевести товар');
         }
     };
 
-    // Обработчик сортировки
     const handleSort = () => {
         const newSortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
         setSortDirection(newSortDirection);
