@@ -13,8 +13,14 @@ const GoodsPage = () => {
     const [error, setError] = useState('');
     const [notification, setNotification] = useState(''); // Состояние для уведомлений
     const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ASC' }); // Состояние для сортировки
+    const [role, setRole] = useState('');
 
+    const handleRole = () => {
+        const role = localStorage.getItem('role');
+        setRole(role);
+    }
     useEffect(() => {
+        handleRole();
         fetchGoods();
     }, []);
 
@@ -130,6 +136,7 @@ const GoodsPage = () => {
     return (
         <div className="goods-page">
             <AdminHeader />
+            <div className="goods-table-view">
             <h2 className='header_h2'>Товары</h2>
             {error && <Notification message={error} onClose={() => setError('')} />}
             <table>
@@ -138,7 +145,8 @@ const GoodsPage = () => {
                         <th className="sortable" onClick={() => sortGoods('id')}>ID {sortConfig.key === 'id' && (sortConfig.direction === 'ASC' ? '↑' : '↓')}</th>
                         <th className="sortable" onClick={() => sortGoods('name')}>Название {sortConfig.key === 'name' && (sortConfig.direction === 'ASC' ? '↑' : '↓')}</th>
                         <th className="sortable" onClick={() => sortGoods('priority')}>Приоритет {sortConfig.key === 'priority' && (sortConfig.direction === 'ASC' ? '↑' : '↓')}</th>
-                        <th>Действия</th>
+                        {role === 'admin' ? (<th>Действия</th>) : (<div></div>)}
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -175,16 +183,21 @@ const GoodsPage = () => {
                                     good.priority
                                 )}
                             </td>
-                            <td>
+                             {role === 'admin' 
+                             ? (<td>
                                 {editingIndex === index ? (
                                     <button onClick={() => handleSave(good.id, index)}><i className="fa-solid fa-circle-check"></i></button>
                                 ) : (
                                     <button onClick={() => handleEdit(index)}><i className="fa-solid fa-pencil"></i></button>
                                 )}
                                 <button onClick={() => handleDelete(good.id)}><i className="fa-solid fa-trash"></i></button>
-                            </td>
+                            </td>)
+                             : (<div></div>)}
+                            
                         </tr>
                     ))}
+                    {role === 'admin' 
+                             ? (
                     <tr>
                         <td></td>
                         <td>
@@ -206,9 +219,11 @@ const GoodsPage = () => {
                         <td>
                             <button onClick={handleAdd}><i className="fa-solid fa-circle-plus"></i></button>
                         </td>
-                    </tr>
+                    </tr>)
+                    : (<div></div>)}
                 </tbody>
             </table>
+            </div>
         </div>
     );
 };

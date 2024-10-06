@@ -54,7 +54,7 @@ const WarehousesPage = () => {
         }
     };
 
-    const fetchGoods1 = async() => {
+    const fetchGoods1 = async () => {
         try {
             const token = localStorage.getItem('token');
             const response = await axios.get('http://localhost:8000/goodsw1', {
@@ -64,11 +64,11 @@ const WarehousesPage = () => {
             });
             setGoodsw1(response.data);
         } catch (error) {
-            console.error('Error by loading goods: '+ error);
+            console.error('Error by loading goods: ' + error);
         }
-    }
+    };
 
-    const fetchGoods2 = async() => {
+    const fetchGoods2 = async () => {
         try {
             const token = localStorage.getItem('token');
             const response = await axios.get('http://localhost:8000/goodsw2', {
@@ -78,15 +78,15 @@ const WarehousesPage = () => {
             });
             setGoodsw2(response.data);
         } catch (error) {
-            console.error('Error by loading goods: '+ error);
+            console.error('Error by loading goods: ' + error);
         }
-    }
+    };
 
     const handleAdd_W1 = async() => {
         try {
             const goodToAdd = {
-                good_id : parseInt(newGoodWH1.good_id), 
-                good_count : parseInt(newGoodWH1.good_count),
+                good_id: parseInt(newGoodWH1.good_id), 
+                good_count: parseInt(newGoodWH1.good_count),
             }
             const token = localStorage.getItem('token');
             await axios.post('http://localhost:8000/wh1', goodToAdd, {
@@ -94,12 +94,15 @@ const WarehousesPage = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
+            // Очистка состояния
             setNewGoodWH1({good_id: '', good_count: ''});
+            // Обновление данных сразу после добавления
             fetchWH1();
         } catch (error) {
             console.error("Error by adding: " + error);
         }
     }
+
 
     const handleAdd_W2 = async() => {
         try {
@@ -121,20 +124,21 @@ const WarehousesPage = () => {
     }
 
     const handleDelete_W1 = async(id) => {
-        if (window.confirm("Вы уверены, что хотите списать данный товар?")){
-            try {
-                const token = localStorage.getItem('token');
-                await axios.delete(`http://localhost:8000/wh1/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                fetchWH1();
-            } catch (error) {
-                console.error("Error by deleting: " + error);
-            }
+    if (window.confirm("Вы уверены, что хотите списать данный товар?")){
+        try {
+            const token = localStorage.getItem('token');
+            await axios.delete(`http://localhost:8000/wh1/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            // Обновление данных сразу после удаления
+            fetchWH1();
+        } catch (error) {
+            console.error("Error by deleting: " + error);
         }
     }
+}
 
     const handleDelete_W2 = async(id) => {
         if (window.confirm("Вы уверены, что хотите списать данный товар?")){
@@ -153,29 +157,31 @@ const WarehousesPage = () => {
     }
 
     const handleSave_W1 = async(id, index) => {
-        try {
-            const goodToSave = {
-                ...wh1goods[index],
-                good_count: parseInt(wh1goods[index].good_count),
-            };
-            const token = localStorage.getItem('token');
-            await axios.put(`http://localhost:8000/wh1/${id}`, goodToSave, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            setEditingIndex(-1);
-            fetchWH1();
-        } catch (error) {
-            console.error("Error by saving: " + error);
-            if (error.response) {
-                setNotification(error.response.data);
-                setTimeout( () => {
-                    setNotification('');
-                },3000)
-            }
+    try {
+        const goodToSave = {
+            ...wh1goods[index],
+            good_count: parseInt(wh1goods[index].good_count),
+        };
+        const token = localStorage.getItem('token');
+        await axios.put(`http://localhost:8000/wh1/${id}`, goodToSave, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        // Сброс индекса редактирования
+        setEditingIndex(-1);
+        // Обновление данных сразу после сохранения
+        fetchWH1();
+    } catch (error) {
+        console.error("Error by saving: " + error);
+        if (error.response) {
+            setNotification(error.response.data);
+            setTimeout(() => {
+                setNotification('');
+            }, 3000);
         }
     }
+}
 
     const handleSave_W2 = async(id, index) => {
         try {
@@ -258,7 +264,7 @@ const WarehousesPage = () => {
                 <div className="warehouses-page-left">
                     <h2 className="header_h2">Склад 1</h2>
                     <hr></hr>
-                    <AddGoods warehouseId={1} />
+                    <AddGoods warehouseId={1} onGoodsAdded={fetchGoods1} />
                     <table>
                         <thead>
                             <tr>
@@ -334,7 +340,7 @@ const WarehousesPage = () => {
                 <div className="warehouses-page-right">
                     <h2 className="header_h2">Склад 2</h2>
                     <hr></hr>
-                    <AddGoods warehouseId={2} />
+                    <AddGoods warehouseId={2} onGoodsAdded={fetchGoods2} />
                     {notification && <Notification message={notification} onClose={()=> setNotification('')}/>}
                     <table>
                         <thead>

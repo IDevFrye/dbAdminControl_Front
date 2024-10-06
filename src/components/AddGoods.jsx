@@ -1,15 +1,56 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const AddGoods = ({ warehouseId }) => {
+const AddGoods = ({ warehouseId, onGoodsAdded }) => {
     const [goods, setGoods] = useState([{ good_id: '', good_count: '' }]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [availableGoods, setAvailableGoods] = useState([]);
+
+    useEffect(() => {
+        fetchGoods();
+    }, [warehouseId]);
+
+    const aggregateGoods = (goods) => {
+        // Объект для хранения товаров с одинаковыми good_id
+        const aggregatedGoods = {};
+
+        goods.forEach(({ good_id, good_count }) => {
+            if (aggregatedGoods[good_id]) {
+                // Если товар с таким good_id уже есть, увеличиваем количество
+                aggregatedGoods[good_id] += parseInt(good_count, 10);
+            } else {
+                // Иначе создаем новую запись
+                aggregatedGoods[good_id] = parseInt(good_count, 10);
+            }
+        });
+
+        // Преобразуем обратно в массив объектов
+        return Object.entries(aggregatedGoods).map(([good_id, good_count]) => ({
+            good_id,
+            good_count,
+        }));
+    };
+
+    const fetchGoods = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.get(`http://localhost:8000/wh/${warehouseId}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+            setAvailableGoods(response.data);
+        } catch (error) {
+            console.error('Error fetching goods: ', error);
+        }
+    };
+
 
     const handleInputChange = (index, e) => {
         const { name, value } = e.target;
         const newGoods = [...goods];
-        newGoods[index][name] = value;
+        newGoods[index][name] = name === 'good_id' ? Number(value) : value;
         setGoods(newGoods);
     };
 
@@ -27,19 +68,32 @@ const AddGoods = ({ warehouseId }) => {
         setLoading(true);
         setError(null);
 
-        try {
-            // Отправляем запрос с помощью axios
-            const response = await axios.post(`/wadd${warehouseId}`, goods, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
+        const formattedGoods = goods.map(item => ({
+            good_id: Number(item.good_id),
+            good_count: parseInt(item.good_count, 10),
+        }));
 
-            if (response.status !== 200) {
+        console.log('Отправляемые данные:', JSON.stringify(formattedGoods, null, 2)); 
+
+        try {
+            const token = localStorage.getItem('token');
+            const aggregatedGoods = aggregateGoods(formattedGoods); 
+
+            const response = await axios.post(`http://localhost:8000/wadd/${warehouseId}`, 
+                JSON.stringify(aggregatedGoods), 
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    }
+                }
+            );
+
+            if (response.status !== 201) {
                 throw new Error('Ошибка при добавлении товаров');
             }
-
             alert('Товары успешно добавлены!');
+            onGoodsAdded(); // Добавьте эту строку
         } catch (err) {
             setError(err.response ? err.response.data.message : err.message);
         } finally {
@@ -48,21 +102,27 @@ const AddGoods = ({ warehouseId }) => {
     };
 
     return (
-        <div>
-            <h2>Добавить товары на склад {warehouseId}</h2>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <form onSubmit={handleSubmit}>
+        <div className="add-goods-container">
+            <h2 className="add-goods-title" id="h2h2">Приемка товаров</h2>
+            <p>Приемка товаров осуществляется в 8:00 по местному времени от зарегистрированных поставщиков. После получения накладной, необходимо внести с нее данные в систему и удостовериться в пополнении складовой базы.</p>
+            {error && <p className="add-goods-error">{error}</p>}
+            <form onSubmit={handleSubmit} className="add-goods-form">
                 {goods.map((good, index) => (
-                    <div key={index} style={{ display: 'flex', marginBottom: '10px' }}>
-                        <input
-                            type="number"
+                    <div key={index} className="add-goods-row">
+                        <select
                             name="good_id"
-                            placeholder="ID товара"
                             value={good.good_id}
                             onChange={(e) => handleInputChange(index, e)}
                             required
-                            style={{ marginRight: '10px' }}
-                        />
+                            className="add-goods-input"
+                        >
+                            <option value="" disabled>Выберите товар</option>
+                            {availableGoods.map(item => (
+                                <option key={item.good_id} value={item.good_id}>
+                                    {item.good_name}
+                                </option>
+                            ))}
+                        </select>
                         <input
                             type="number"
                             name="good_count"
@@ -70,22 +130,22 @@ const AddGoods = ({ warehouseId }) => {
                             value={good.good_count}
                             onChange={(e) => handleInputChange(index, e)}
                             required
-                            style={{ marginRight: '10px' }}
+                            className="add-goods-input" 
                         />
                         <button
                             type="button"
                             onClick={() => handleRemoveRow(index)}
-                            disabled={goods.length === 1} // Не даем удалить последнюю строку
-                            style={{ marginRight: '10px' }}
+                            disabled={goods.length === 1}
+                            className="add-goods-input"
                         >
                             Удалить
                         </button>
                     </div>
                 ))}
-                <button type="button" onClick={handleAddRow}>
+                <button type="button" onClick={handleAddRow} className="add-goods-button">
                     Добавить товар
                 </button>
-                <button type="submit" disabled={loading} style={{ marginLeft: '10px' }}>
+                <button type="submit" disabled={loading} className="add-goods-button" style={{ marginLeft: '10px' }}>
                     {loading ? 'Добавление...' : 'Отправить'}
                 </button>
             </form>

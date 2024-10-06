@@ -148,6 +148,7 @@ const SalesPage = () => {
     return (
         <div className="sales-page">
             <AdminHeader />
+            <div className="goods-table-view">
             <h2 className='header_h2'>Заявки</h2>
             {notification && <Notification message={notification} onClose={() => setNotification('')} />}
             <table>
@@ -247,6 +248,7 @@ const SalesPage = () => {
                 </tbody>
 
             </table>
+            </div>
         </div>
     );
 };

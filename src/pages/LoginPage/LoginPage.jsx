@@ -1,8 +1,8 @@
-// src/pages/LoginPage/LoginPage.jsx
 import React, { useState } from "react";
 import "./LoginPage.scss";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import logo from "../AdminPage/logo.png";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -37,6 +37,7 @@ const LoginPage = () => {
 
   return (
     <div className="login-page">
+      <img src={logo} alt="" />
       <h1>Авторизация</h1>
       <form onSubmit={handleLogin}>
         <div className="input-group">

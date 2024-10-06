@@ -4,10 +4,13 @@ import axios from 'axios';
 const GoodsTransferInfo = () => {
     const [goodsTransfer, setGoodsTransfer] = useState([]);
     const [sortDirection, setSortDirection] = useState('asc'); // Состояние для направления сортировки
-
+    const [role, setRole] = useState('');
     // Функция для получения товаров для перевода
     const fetchGoodsTransfer = async () => {
         try {
+            const role = localStorage.getItem('role');
+            setRole(role);
+            console.log(role);
             const token = document.cookie.split('; ').find(row => row.startsWith('token=')).split('=')[1];
             const response = await axios.get('http://localhost:8000/goods-for-transfer', {
                 headers: {
@@ -85,7 +88,10 @@ const GoodsTransferInfo = () => {
                             Перевод {sortDirection === 'asc' ? <i class="fa-solid fa-arrow-up"></i> : <i class="fa-solid fa-arrow-down"></i>}
                         </th>
                         <th>Приоритет</th>
-                        <th>Действие</th>
+                        {role === 'admin'
+                        ? (<th>Действие</th>
+                        ):(<div></div>)}
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -95,7 +101,8 @@ const GoodsTransferInfo = () => {
                                 <td style={{ textAlign: 'center' }}>{good.good_name}</td>
                                 <td style={{ textAlign: 'center' }}>{good.need_to_transfer}</td>
                                 <td style={{ textAlign: 'center' }}>{good.priority}</td>
-                                <td style={{ textAlign: 'center' }}>
+                               {role === 'admin'
+                                ? (<td style={{ textAlign: 'center' }}>
                                     <button
                                         onClick={() => handleTransfer(good)}
                                         disabled={good.need_to_transfer <= 0 || good.priority < 0}
@@ -104,6 +111,8 @@ const GoodsTransferInfo = () => {
                                         Списать
                                     </button>
                                 </td>
+                                ):(<div></div>)}
+                                
                             </tr>
                         ))
                     ) : (
